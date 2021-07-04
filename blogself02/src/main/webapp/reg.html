@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <script src="jquery-1.9.1.min.js"></script>
+    <script>
+        function mysub(type) {
+            //1、拿到前端的值
+            var username =jQuery("#username");
+            var password =jQuery("#password");
+            var password2 =jQuery("#password2");
+            //2.清空操作
+            if(type==2){
+            if(confirm("确认清空吗？")){
+                username.val("");
+                password.val("");
+                password2.val("");
+            }
+            return false;
+            }
+                //非空效验
+                if(username.val().trim()==""){
+                    username.focus();
+                    alert("请输入用户名")
+                    return false;
+                }
+                if(password.val().trim()==""){
+                    password.focus();
+                    alert("请输入密码");
+                    return false;
+                }
+                if(password2.val().trim()==""){
+                    password2.focus();
+                    alert("请输入确认密码");
+                    return false;
+                }
+                if(password.val()!=password2.val()){
+                    password.focus();
+                    alert("两次输入的密码不一致");
+                    return false;
+                }
+                if(type==1){
+
+                    //1、提交操作
+
+                //2、使用ajax,请求后端接口，提交数据给后端
+                jQuery.getJSON("reg",{"username":username.val(),"password":password.val()},function (data) {
+                    if(data!= null && data.succ!= null && data.succ == 1){
+                        alert("恭喜，注册成功！");
+                    }else {
+                        alert("抱歉，注册失败！"+data.msg);
+                    }
+                });
+
+            }
+
+        }
+        </script>
+</head>
+<body>
+<div style="text-align: center;margin-top: 80px">
+    <h1>注册功能</h1>
+    &nbsp;&nbsp;&nbsp;用户名:&nbsp;<input id="username" name="username" type="text"><p></p>
+    &nbsp;&nbsp;&nbsp;&nbsp;密&nbsp;&nbsp;&nbsp;码:&nbsp;<input id="password" name="password" type="password"><p></p>
+    确认密码:&nbsp;<input id="password2" name="password2" type="password"><p></p>
+    <input onclick="mysub(1)" type="button" value="提 交">
+    <input onclick="mysub(2)" type="button" value="清 空">
+</div>
+
+</body>
+</html>
